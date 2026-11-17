@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Relational Schema</title>
+<style>
+  body { margin: 0; background: #fff; font-family: Helvetica, Arial, sans-serif; }
+  #diagram { position: relative; width: 1400px; height: 860px; }
+  h1 { position: absolute; left: 0; right: 0; top: 14px; margin: 0; text-align: center; font-size: 24px; }
+  table { position: absolute; border-collapse: collapse; background: #fff; font-size: 14px; box-shadow: 0 1px 3px rgba(0,0,0,.15); z-index: 1; }
+  th { background: #312e81; color: #fff; padding: 9px 14px; text-align: left; font-size: 16px; letter-spacing: .5px; }
+  td { border: 1px solid #c7d2fe; padding: 6px 14px; white-space: nowrap; }
+  td.type { color: #6b7280; font-family: Menlo, monospace; font-size: 12px; }
+  .pk { font-weight: 700; text-decoration: underline; }
+  .fk { color: #b45309; font-weight: 700; }
+  .tag { font-size: 11px; font-weight: 700; padding: 1px 5px; border-radius: 4px; margin-left: 6px; display: inline-block; text-decoration: none; }
+  .pk-tag { background: #e0e7ff; color: #3730a3; }
+  .fk-tag { background: #fef3c7; color: #92400e; }
+  .uq-tag { background: #dcfce7; color: #166534; }
+  svg { position: absolute; left: 0; top: 0; z-index: 2; pointer-events: none; }
+  .arrow { stroke: #b45309; stroke-width: 2.5; fill: none; }
+  .note { position: absolute; left: 40px; right: 40px; bottom: 24px; font-size: 13px; color: #374151; line-height: 1.6; }
+</style>
+</head>
+<body>
+<div id="diagram">
+  <h1>Relational Schema (after ER-to-Relational mapping)</h1>
+
+  <table style="left:110px; top:80px;">
+    <tr><th colspan="2">STUDENT</th></tr>
+    <tr><td class="pk" id="student-pk">Student_ID <span class="tag pk-tag">PK</span></td><td class="type">INT AUTO_INCREMENT</td></tr>
+    <tr><td>Name</td><td class="type">VARCHAR(100) NOT NULL</td></tr>
+    <tr><td>Email <span class="tag uq-tag">UNIQUE</span></td><td class="type">VARCHAR(150) NOT NULL</td></tr>
+    <tr><td>Phone</td><td class="type">VARCHAR(15)</td></tr>
+    <tr><td>Password_Hash</td><td class="type">VARCHAR(255) NOT NULL</td></tr>
+    <tr><td>Role</td><td class="type">ENUM('STUDENT','ADMIN') NOT NULL</td></tr>
+  </table>
+
+  <table style="left:800px; top:80px;">
+    <tr><th colspan="2">ITEM_REPORT</th></tr>
+    <tr><td class="pk" id="report-pk">Report_ID <span class="tag pk-tag">PK</span></td><td class="type">INT AUTO_INCREMENT</td></tr>
+    <tr><td class="fk" id="report-fk-student">Student_ID <span class="tag fk-tag">FK → STUDENT</span></td><td class="type">INT NOT NULL</td></tr>
+    <tr><td>Item_Name</td><td class="type">VARCHAR(100) NOT NULL</td></tr>
+    <tr><td>Description</td><td class="type">TEXT NOT NULL</td></tr>
+    <tr><td>Report_Type</td><td class="type">ENUM('LOST','FOUND') NOT NULL</td></tr>
+    <tr><td>Location</td><td class="type">VARCHAR(150) NOT NULL</td></tr>
+    <tr><td>Date_Reported</td><td class="type">DATE NOT NULL</td></tr>
+    <tr><td>Status</td><td class="type">ENUM('OPEN','MATCHED','CLOSED') NOT NULL</td></tr>
+  </table>
+
+  <table style="left:110px; top:430px;">
+    <tr><th colspan="2">CLAIM</th></tr>
+    <tr><td class="pk" id="claim-pk">Claim_ID <span class="tag pk-tag">PK</span></td><td class="type">INT AUTO_INCREMENT</td></tr>
+    <tr><td class="fk" id="claim-fk-report">Report_ID <span class="tag fk-tag">FK → ITEM_REPORT</span></td><td class="type">INT NOT NULL</td></tr>
+    <tr><td class="fk" id="claim-fk-student">Claimant_Student_ID <span class="tag fk-tag">FK → STUDENT</span></td><td class="type">INT NOT NULL</td></tr>
+    <tr><td>Claim_Date</td><td class="type">DATE NOT NULL</td></tr>
+    <tr><td>Claim_Status</td><td class="type">ENUM('PENDING','APPROVED','REJECTED') NOT NULL</td></tr>
+    <tr><td>Remarks</td><td class="type">VARCHAR(255)</td></tr>
+    <tr><td colspan="2" style="font-size:12px;color:#166534">UNIQUE (Report_ID, Claimant_Student_ID)</td></tr>
+  </table>
+
+  <table style="left:800px; top:500px;">
+    <tr><th colspan="2">ITEM_RETURN</th></tr>
+    <tr><td class="pk">Return_ID <span class="tag pk-tag">PK</span></td><td class="type">INT AUTO_INCREMENT</td></tr>
+    <tr><td class="fk" id="return-fk-claim">Claim_ID <span class="tag fk-tag">FK → CLAIM</span> <span class="tag uq-tag">UNIQUE</span></td><td class="type">INT NOT NULL</td></tr>
+    <tr><td>Returned_Date</td><td class="type">DATE NOT NULL</td></tr>
+    <tr><td>Remarks</td><td class="type">VARCHAR(255)</td></tr>
+  </table>
+
+  <svg id="arrows" width="1400" height="860">
+    <defs>
+      <marker id="arrowhead" markerWidth="12" markerHeight="9" refX="11" refY="4.5" orient="auto">
+        <polygon points="0 0, 12 4.5, 0 9" fill="#b45309"/>
+      </marker>
+    </defs>
+  </svg>
+
+  <div class="note">
+    <strong>Mapping summary:</strong> each strong entity becomes a table (Step 1).
+    The 1:N relationships REPORTS, MAKES and RECEIVES become a foreign key on the N-side table (Step 4).
+    The 1:1 relationship RESULTS_IN becomes foreign key Claim_ID in ITEM_RETURN (the total-participation side) with a UNIQUE constraint (Step 3).
+    Arrows point from each foreign key to the primary key it references. All foreign keys use ON DELETE CASCADE.
+  </div>
+</div>
+
+<script>
+  // Draw each FK -> PK arrow from the real positions of the table cells
+  const links = [
+    ["report-fk-student", "student-pk"],
+    ["claim-fk-report", "report-pk"],
+    ["claim-fk-student", "student-pk"],
+    ["return-fk-claim", "claim-pk"]
+  ];
+  const svg = document.getElementById("arrows");
+  const base = document.getElementById("diagram").getBoundingClientRect();
+  const box = (id) => {
+    const r = document.getElementById(id).getBoundingClientRect();
+    return { left: r.left - base.left, right: r.right - base.left, y: r.top - base.top + r.height / 2 };
+  };
+  const tableBox = (id) => {
+    const r = document.getElementById(id).closest("table").getBoundingClientRect();
+    return { left: r.left - base.left, right: r.right - base.left };
+  };
+
+  links.forEach(([from, to], i) => {
+    const a = box(from), b = box(to), ta = tableBox(from), tb = tableBox(to);
+    let d;
+    if (Math.abs(ta.left - tb.left) < 50) {
+      // same column: loop around the left side
+      const x = Math.min(ta.left, tb.left) - 45 - i * 8;
+      d = `M ${ta.left} ${a.y} C ${x} ${a.y}, ${x} ${b.y}, ${tb.left} ${b.y}`;
+    } else if (ta.left > tb.left) {
+      d = `M ${ta.left} ${a.y} C ${ta.left - 90} ${a.y}, ${tb.right + 90} ${b.y}, ${tb.right} ${b.y}`;
+    } else {
+      d = `M ${ta.right} ${a.y} C ${ta.right + 90} ${a.y}, ${tb.left - 90} ${b.y}, ${tb.left} ${b.y}`;
+    }
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", d);
+    path.setAttribute("class", "arrow");
+    path.setAttribute("marker-end", "url(#arrowhead)");
+    svg.appendChild(path);
+  });
+</script>
+</body>
+</html>

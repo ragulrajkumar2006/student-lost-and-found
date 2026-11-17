@@ -1,0 +1,70 @@
+--------------
+SHOW TABLES
+--------------
+
++-------------------------+
+| Tables_in_lost_found_db |
++-------------------------+
+| CLAIM                   |
+| ITEM_REPORT             |
+| ITEM_RETURN             |
+| STUDENT                 |
+| vw_claim_history        |
+| vw_item_board           |
++-------------------------+
+--------------
+DESCRIBE STUDENT
+--------------
+
++---------------+-------------------------+------+-----+---------+----------------+
+| Field         | Type                    | Null | Key | Default | Extra          |
++---------------+-------------------------+------+-----+---------+----------------+
+| Student_ID    | int                     | NO   | PRI | NULL    | auto_increment |
+| Name          | varchar(100)            | NO   |     | NULL    |                |
+| Email         | varchar(150)            | NO   | UNI | NULL    |                |
+| Phone         | varchar(15)             | YES  |     | NULL    |                |
+| Password_Hash | varchar(255)            | NO   |     | NULL    |                |
+| Role          | enum('STUDENT','ADMIN') | NO   |     | STUDENT |                |
++---------------+-------------------------+------+-----+---------+----------------+
+--------------
+DESCRIBE ITEM_REPORT
+--------------
+
++---------------+---------------------------------+------+-----+---------+----------------+
+| Field         | Type                            | Null | Key | Default | Extra          |
++---------------+---------------------------------+------+-----+---------+----------------+
+| Report_ID     | int                             | NO   | PRI | NULL    | auto_increment |
+| Student_ID    | int                             | NO   | MUL | NULL    |                |
+| Item_Name     | varchar(100)                    | NO   |     | NULL    |                |
+| Description   | text                            | NO   |     | NULL    |                |
+| Report_Type   | enum('LOST','FOUND')            | NO   | MUL | NULL    |                |
+| Location      | varchar(150)                    | NO   |     | NULL    |                |
+| Date_Reported | date                            | NO   |     | NULL    |                |
+| Status        | enum('OPEN','MATCHED','CLOSED') | NO   |     | OPEN    |                |
++---------------+---------------------------------+------+-----+---------+----------------+
+--------------
+DESCRIBE CLAIM
+--------------
+
++---------------------+---------------------------------------+------+-----+---------+----------------+
+| Field               | Type                                  | Null | Key | Default | Extra          |
++---------------------+---------------------------------------+------+-----+---------+----------------+
+| Claim_ID            | int                                   | NO   | PRI | NULL    | auto_increment |
+| Report_ID           | int                                   | NO   | MUL | NULL    |                |
+| Claimant_Student_ID | int                                   | NO   | MUL | NULL    |                |
+| Claim_Date          | date                                  | NO   |     | NULL    |                |
+| Claim_Status        | enum('PENDING','APPROVED','REJECTED') | NO   |     | PENDING |                |
+| Remarks             | varchar(255)                          | YES  |     | NULL    |                |
++---------------------+---------------------------------------+------+-----+---------+----------------+
+--------------
+DESCRIBE ITEM_RETURN
+--------------
+
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| Return_ID     | int          | NO   | PRI | NULL    | auto_increment |
+| Claim_ID      | int          | NO   | UNI | NULL    |                |
+| Returned_Date | date         | NO   |     | NULL    |                |
+| Remarks       | varchar(255) | YES  |     | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+

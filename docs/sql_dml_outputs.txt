@@ -1,0 +1,59 @@
+--------------
+SELECT Student_ID, Name, Email, Phone, Role, CONCAT(LEFT(Password_Hash,20),'...') AS Password_Hash FROM STUDENT
+--------------
+
++------------+--------------+-------------------+------------+---------+-------------------------+
+| Student_ID | Name         | Email             | Phone      | Role    | Password_Hash           |
++------------+--------------+-------------------+------------+---------+-------------------------+
+|          1 | Arun Kumar   | arun@gmail.com    | 9876543210 | STUDENT | $2b$10$ZHH3L8Ao9G94G... |
+|          2 | Priya Sharma | priya@gmail.com   | 9876543211 | STUDENT | $2b$10$ZHH3L8Ao9G94G... |
+|          3 | Rahul Raj    | rahul@gmail.com   | 9876543212 | STUDENT | $2b$10$ZHH3L8Ao9G94G... |
+|          4 | Admin User   | admin@college.edu | 9876543213 | ADMIN   | $2b$10$f/EbVMJHvIPZ/... |
+|          5 | Sneha Iyer   | sneha@gmail.com   | 9876543214 | STUDENT | $2b$10$ZHH3L8Ao9G94G... |
++------------+--------------+-------------------+------------+---------+-------------------------+
+--------------
+SELECT Report_ID, Student_ID, Item_Name, Report_Type, Location, Date_Reported, Status FROM ITEM_REPORT
+--------------
+
++-----------+------------+-----------------------+-------------+----------------+---------------+---------+
+| Report_ID | Student_ID | Item_Name             | Report_Type | Location       | Date_Reported | Status  |
++-----------+------------+-----------------------+-------------+----------------+---------------+---------+
+|         1 |          1 | Black Wallet          | LOST        | Library        | 2026-11-01    | CLOSED  |
+|         2 |          2 | Blue Water Bottle     | FOUND       | Classroom      | 2026-11-02    | MATCHED |
+|         3 |          3 | Wireless Earbuds      | LOST        | Canteen        | 2026-11-02    | OPEN    |
+|         4 |          2 | Black Leather Wallet  | FOUND       | Library        | 2026-11-03    | CLOSED  |
+|         5 |          3 | Laptop Charger        | LOST        | Computer Lab 3 | 2026-11-10    | OPEN    |
+|         6 |          2 | Power Adapter         | FOUND       | Computer Lab 3 | 2026-11-11    | OPEN    |
+|         7 |          5 | Scientific Calculator | LOST        | Exam Hall B    | 2026-11-11    | OPEN    |
+|         8 |          1 | Calculator            | FOUND       | Exam Hall B    | 2026-11-12    | OPEN    |
+|         9 |          5 | Earbuds Case          | FOUND       | Canteen        | 2026-11-12    | OPEN    |
+|        10 |          1 | College ID Card       | LOST        | Main Gate      | 2026-11-13    | CLOSED  |
+|        11 |          3 | ID Card with Lanyard  | FOUND       | Main Gate      | 2026-11-13    | CLOSED  |
+|        12 |          2 | Black Umbrella        | LOST        | Auditorium     | 2026-11-14    | OPEN    |
+|        13 |          5 | Reading Glasses       | LOST        | Library        | 2026-11-14    | OPEN    |
+|        28 |          1 | Umbrella              | FOUND       | Auditorium     | 2026-11-15    | OPEN    |
++-----------+------------+-----------------------+-------------+----------------+---------------+---------+
+--------------
+SELECT * FROM CLAIM
+--------------
+
++----------+-----------+---------------------+------------+--------------+------------------------------------------------------------------+
+| Claim_ID | Report_ID | Claimant_Student_ID | Claim_Date | Claim_Status | Remarks                                                          |
++----------+-----------+---------------------+------------+--------------+------------------------------------------------------------------+
+|        1 |         4 |                   1 | 2026-11-03 | APPROVED     | Ownership verified by admin. Claim approved.                     |
+|        2 |         2 |                   3 | 2026-11-03 | APPROVED     | Testing automatic approval trigger.                              |
+|        3 |         6 |                   3 | 2026-11-12 | PENDING      | It is my Dell charger, the cable has a small tear near the plug. |
+|        4 |         8 |                   5 | 2026-11-12 | PENDING      | My name SNEHA is written on the back in marker.                  |
+|        5 |        11 |                   1 | 2026-11-14 | APPROVED     | The ID card has my photo and SRN on it.                          |
+|        6 |         9 |                   2 | 2026-11-13 | REJECTED     | Claimant could not describe the earbuds or the case.             |
++----------+-----------+---------------------+------------+--------------+------------------------------------------------------------------+
+--------------
+SELECT * FROM ITEM_RETURN
+--------------
+
++-----------+----------+---------------+-------------------------------------------------+
+| Return_ID | Claim_ID | Returned_Date | Remarks                                         |
++-----------+----------+---------------+-------------------------------------------------+
+|         1 |        1 | 2026-11-03    | Wallet successfully returned to Arun Kumar.     |
+|        10 |        5 | 2026-11-15    | ID card collected by Arun from the admin office |
++-----------+----------+---------------+-------------------------------------------------+

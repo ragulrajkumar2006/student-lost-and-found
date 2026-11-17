@@ -1,0 +1,54 @@
+
+=== COLLECTION ========================================================
+Collection : lost_found_items
+Vector size: 384, distance: Cosine
+Points     : 13
+
+=== 1. CREATE (insert a vector record) ================================
+Inserted point 900001: "Lost a red backpack with physics notes near the basketball court" (384 dimensions)
+
+=== 2. READ (retrieve by id) ==========================================
+Payload       : {"report_id":900001,"item_name":"Red Backpack","report_type":"LOST","status":"OPEN","demo":true}
+Vector preview: -0.0322, 0.0734, -0.0170, 0.0586, 0.0516 ...
+
+=== 3a. UPDATE (payload only) =========================================
+Status after update: MATCHED
+
+=== 3b. UPDATE (new description -> new vector, same id) ===============
+Replaced vector for point 900001: "Lost a red college bag containing physics notebooks near the sports ground"
+Point count is still 14 (no duplicate created)
+
+=== 4. SIMILARITY SEARCH ==============================================
+Query: "found a red rucksack on the sports field"
+  id=900001  score=0.4399  Red Backpack (LOST)
+  id=4       score=0.3272  Black Leather Wallet (FOUND)
+  id=9       score=0.2070  Earbuds Case (FOUND)
+
+=== 5. DELETE =========================================================
+Deleted point 900001. Retrieve now returns 0 record(s).
+
+=== 6. SEMANTIC MATCHING: LOST -> FOUND (real reports) ================
+
+[LOST #3] Wireless Earbuds — "White wireless earbuds in a small case"
+    -> FOUND #9 Earbuds Case @ Canteen  score=0.7206
+
+[LOST #5] Laptop Charger — "Grey Dell laptop charger with a long black cable, left on the desk"
+    -> FOUND #6 Power Adapter @ Computer Lab 3  score=0.6545
+    -> FOUND #9 Earbuds Case @ Canteen  score=0.3783
+
+[LOST #7] Scientific Calculator — "Casio fx-991EX scientific calculator with my name written on the back"
+    -> FOUND #8 Calculator @ Exam Hall B  score=0.7555
+
+[LOST #10] College ID Card — "My student identity card attached to a blue lanyard"
+    -> FOUND #11 ID Card with Lanyard @ Main Gate  score=0.8627
+
+[LOST #12] Black Umbrella — "Black foldable umbrella with a curved wooden handle"
+    no FOUND report above the 0.35 threshold
+
+[LOST #13] Reading Glasses — "Black framed spectacles inside a brown zip case"
+    no FOUND report above the 0.35 threshold
+
+=== 7. KEYWORD vs SEMANTIC ============================================
+Search LOST reports for "power adapter"
+  Keyword (LIKE) : 0 result(s) 
+  Semantic       : #5 Laptop Charger (0.4526), #10 College ID Card (0.2057)

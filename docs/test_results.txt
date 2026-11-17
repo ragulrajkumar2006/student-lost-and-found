@@ -1,0 +1,35 @@
+
+> backend@1.0.0 test
+> node --test --test-reporter=spec tests/api.test.js
+
+✔ TC01 health check: MySQL, Qdrant and embedding service are up (53.587875ms)
+✔ TC02 registration creates a STUDENT and returns a JWT (212.163ms)
+✔ TC03 duplicate email is rejected with 409 (102.519667ms)
+✔ TC04 invalid registration input is rejected with 400 and details (1.8045ms)
+✔ TC05 login with wrong password fails, correct password succeeds (304.813375ms)
+✔ TC06 protected routes reject missing and tampered tokens (5.980584ms)
+✔ TC07 a student cannot access admin-only routes (403) (4.133ms)
+✔ TC08 report validation: missing fields and future dates are rejected (17.953792ms)
+✔ TC09 creating a LOST report saves it in MySQL and Qdrant (62.074375ms)
+✔ TC10 creating a FOUND report returns the LOST report as a semantic match (21.691542ms)
+✔ TC11 admin can read a stored vector record (384 dimensions) (4.085791ms)
+✔ TC12 keyword search needs the exact word; semantic search understands meaning (20.305708ms)
+✔ TC13 claim rules enforced by trigger: no LOST claims, no claiming your own item (3.760541ms)
+✔ TC14 student submits a claim; duplicate claim is rejected (4.651416ms)
+✔ TC15 a student cannot approve claims (0.893291ms)
+✔ TC16 a return cannot be recorded before the claim is approved (2.35125ms)
+✔ TC17 admin approval marks the item MATCHED in MySQL and Qdrant (9.382375ms)
+✔ TC18 recording the return closes the item in MySQL and Qdrant (11.094375ms)
+✔ TC19 admin rejects a claim (reason required) (27.850541ms)
+✔ TC20 student withdraws own pending claim (DELETE) (25.231125ms)
+✔ TC21 updating a report re-embeds it without creating a duplicate vector (24.020417ms)
+✔ TC22 deleting a report removes it from MySQL and Qdrant (11.899083ms)
+✔ TC23 MySQL and Qdrant hold the same number of reports (3.099417ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1172.157541

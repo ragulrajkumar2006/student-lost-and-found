@@ -1,0 +1,4 @@
+fastapi==0.163.1
+requests==2.34.2
+sentence-transformers==6.2.0
+uvicorn==0.54.0
