@@ -19,3 +19,6 @@ out/
 
 # Local database backups (contain data)
 database/backup/
+
+# Launcher logs
+.run-logs/
