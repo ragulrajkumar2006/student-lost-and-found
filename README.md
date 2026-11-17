@@ -15,10 +15,10 @@ A DBMS mini-project that helps students recover items lost on campus. Students r
 
 ## Team
 
-| Name | SRN |
-|---|---|
-| Ragul Rajkumar S | PES2UG24AM128 |
-| Sharanya N | PES2UG24AM150 |
+| Name | SRN | Contribution |
+|---|---|---|
+| Ragul Rajkumar S | PES2UG24AM128 | ER diagram, relational schema, DDL and constraints, DML, SQL queries, procedures/functions/triggers/views, MySQL roles, authentication API |
+| Sharanya N | PES2UG24AM150 | Qdrant and embedding service, vector CRUD and MySQL-Qdrant sync, semantic matching/search, report and claim APIs, Next.js frontend, tests, documentation |
 
 Course: UE23CS351A Database Management Systems, PES University.
 
