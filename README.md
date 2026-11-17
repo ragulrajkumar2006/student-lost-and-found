@@ -22,7 +22,7 @@ A DBMS mini-project that helps students recover items lost on campus. Students r
 
 Repository: https://github.com/ragulrajkumar2006/student-lost-and-found
 
-Course: UE23CS351A Database Management Systems, PES University.
+Course: UE24CS351A Database Management Systems, PES University.
 
 ---
 
