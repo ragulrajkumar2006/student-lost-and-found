@@ -20,6 +20,8 @@ A DBMS mini-project that helps students recover items lost on campus. Students r
 | Ragul Rajkumar S | PES2UG24AM128 | ER diagram, relational schema, DDL and constraints, DML, SQL queries, procedures/functions/triggers/views, MySQL roles, authentication API |
 | Sharanya N | PES2UG24AM150 | Qdrant and embedding service, vector CRUD and MySQL-Qdrant sync, semantic matching/search, report and claim APIs, Next.js frontend, tests, documentation |
 
+Repository: https://github.com/ragulrajkumar2006/student-lost-and-found
+
 Course: UE23CS351A Database Management Systems, PES University.
 
 ---
